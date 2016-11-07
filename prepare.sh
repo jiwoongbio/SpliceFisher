@@ -5,7 +5,7 @@ codeDir=`dirname $0`
 fastaFile=$1
 gtfFile=$2
 
-if [ -z "$bamFiles" ]; then
+if [ -z "$gtfFile" ]; then
 	echo 'Usage: SpliceFisher.sh <genome.fasta> <gene.gtf>' 1>&2
 	exit 1
 fi
