@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use List::Util qw(sum);
-#use Bio::DB::Sam;
+use Bio::DB::Sam;
 use Getopt::Long;
 
 GetOptions('q=i' => \(my $minimumMappingQuality = 0), 's=s' => \(my $stranded = ''));
