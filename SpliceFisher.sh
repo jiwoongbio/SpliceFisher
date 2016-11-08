@@ -12,7 +12,7 @@ if [ -z "$bamFiles" ]; then
 fi
 perl -MBio::DB::Sam -e '' || exit 1
 
-perl $codeDir/SpliceFisher_gene.pl $codeDir/$type.unique.txt $bamFiles > $outputPrefix.gene.count.txt
+perl $codeDir/SpliceFisher_gene.pl $codeDir/exon.unique.txt $bamFiles > $outputPrefix.gene.count.txt
 
 type=exon
 perl $codeDir/SpliceFisher_$type.pl $codeDir/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
