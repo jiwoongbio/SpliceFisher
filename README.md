@@ -2,7 +2,7 @@
 Multiple Fisher's exact tests for differential alternative splicing detection using RNA-seq data
 
 
-![method](SpliceFisher.method.pdf)
+![method](SpliceFisher.method.png)
 
 
 Requirements
