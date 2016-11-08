@@ -4,9 +4,6 @@ Multiple Fisher's exact tests for differential alternative splicing detection us
 
 Requirements
 ------------
-
-Perl - https://www.perl.org
-
-Perl module "Bio::DB::Sam" - http://search.cpan.org/~lds/Bio-SamTools-1.43/lib/Bio/DB/Sam.pm
-
-R - https://www.r-project.org
+1. Perl - https://www.perl.org
+2. Perl module "Bio::DB::Sam" - http://search.cpan.org/~lds/Bio-SamTools-1.43/lib/Bio/DB/Sam.pm
+3. R - https://www.r-project.org
