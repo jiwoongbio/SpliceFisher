@@ -6,7 +6,7 @@ fastaFile=$1
 gtfFile=$2
 
 if [ -z "$gtfFile" ]; then
-	echo 'Usage: SpliceFisher.sh <genome.fasta> <gene.gtf>' 1>&2
+	echo 'Usage: ./prepare.sh <genome.fasta> <gene.gtf>' 1>&2
 	exit 1
 fi
 
