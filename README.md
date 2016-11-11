@@ -31,3 +31,33 @@ Requirements
 1. Perl - https://www.perl.org
 2. Perl module "Bio::DB::Sam" - http://search.cpan.org/~lds/Bio-SamTools-1.43/lib/Bio/DB/Sam.pm
 3. R - https://www.r-project.org
+4. Linux commands: sort
+
+
+Install
+-------
+```
+git clone https://github.com/jiwoongbio/SpliceFisher.git
+```
+
+
+Usages
+------
+
+1. Preparation of exon/intron regions
+```
+./prepare.sh <gene.gtf>
+```
+  - Example: 
+```
+./prepare.sh Homo_sapiens/UCSC/hg19/Annotation/Genes/genes.gtf
+```
+
+2. Detection of differential alternative splicing
+```
+./SpliceFisher.sh <outputPrefix> <alpha> <control.bam> <test.bam>
+```
+  - Example: 
+```
+./SpliceFisher.sh Control_vs_hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
+```
