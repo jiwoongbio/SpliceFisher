@@ -62,5 +62,5 @@ Usages
   ```
   - Example: It uses SRA data of https://www.ncbi.nlm.nih.gov/pubmed/24840202. The reads mapped to 11p13 were extracted to generate the input BAM files.
   ```
-  ./SpliceFisher.sh Control_vs_hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
+  ./SpliceFisher.sh hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
   ```
