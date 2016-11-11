@@ -12,6 +12,10 @@ if [ -z "$bamFiles" ]; then
 fi
 perl -MBio::DB::Sam -e '' || exit 1
 
+for bamFile in `echo "$bamFiles" | sed 's/,/ /g'`; do
+	find $bamFile.bai -newer $bamFile > /dev/null || samtools index $bamFile
+done
+
 perl $codeDir/SpliceFisher_gene.pl $codeDir/exon.unique.txt $bamFiles > $outputPrefix.gene.count.txt
 
 type=exon
