@@ -37,7 +37,7 @@ Requirements
 Install
 -------
 
-Install git (https://git-scm.com) before running the following command.
+If you already have Git (https://git-scm.com) installed, you can get the latest development version using Git.
 ```
 git clone https://github.com/jiwoongbio/SpliceFisher.git
 ```
