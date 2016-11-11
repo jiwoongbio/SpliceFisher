@@ -50,7 +50,7 @@ Usages
   ```
   ./prepare.sh <gene.gtf>
   ```
-  - Example: Download Homo_sapiens_UCSC_hg19.tar.gz from http://support.illumina.com/sequencing/sequencing_software/igenome.html and unzip the file before running the following command.
+  - Example: Before running the following command, download "Homo_sapiens_UCSC_hg19.tar.gz" from http://support.illumina.com/sequencing/sequencing_software/igenome.html and unzip the file.
   ```
   ./prepare.sh Homo_sapiens/UCSC/hg19/Annotation/Genes/genes.gtf
   ```
