@@ -54,7 +54,7 @@ Usages
   ```
   ./prepare.sh Homo_sapiens/UCSC/hg19/Annotation/Genes/genes.gtf
   ```
-  - The repository already contains prebuilt exon/intron regions in hg19.
+  - The repository already contains prebuilt exon/intron regions in hg19 (exon.unique.txt, intron.unique.txt).
 
 2. Detection of differential alternative splicing
   ```
