@@ -19,9 +19,9 @@ Method
     - *d* intron-mapping reads
     - *e* gene-mapping reads
 2. Fisher's exact test
-  - (control *a* x test *c*) / (control *c* / test *a*)
-  - (control *b* x test *c*) / (control *c* / test *b*)
-  - (control *d* x test *e*) / (control *e* / test *d*)
+  - (control *a* / control *c*) / (test *a* / test *c*)
+  - (control *b* / control *c*) / (test *b* / test *c*)
+  - (control *d* / control *e*) / (test *d* / test *e*)
 3. Adjustment of p-values by false discovery rate (FDR) method
 
 
