@@ -5,7 +5,7 @@ Multiple Fisher's exact tests for differential alternative splicing detection us
 Method
 ------
 
-![method](SpliceFisher.method.png)
+![SpliceFisher.method.png](SpliceFisher.method.png)
 
 1. Counting reads from BAM files
   - Exon skipping
@@ -64,3 +64,5 @@ Usages
   ```
   ./SpliceFisher.sh hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
   ```
+
+![hnRNPM_KD.CD44.png](hnRNPM_KD.CD44.png)
