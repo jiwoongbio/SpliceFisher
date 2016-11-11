@@ -31,11 +31,13 @@ Requirements
 1. Perl - https://www.perl.org
 2. Perl module "Bio::DB::Sam" - http://search.cpan.org/~lds/Bio-SamTools-1.43/lib/Bio/DB/Sam.pm
 3. R - https://www.r-project.org
-4. Linux commands: sort
+4. Common linux commands: cut, sort, uniq, ...
 
 
 Install
 -------
+
+Install git (https://git-scm.com) before running the following command.
 ```
 git clone https://github.com/jiwoongbio/SpliceFisher.git
 ```
@@ -48,10 +50,11 @@ Usages
 ```
 ./prepare.sh <gene.gtf>
 ```
-  - Example: 
+  - Example: Download Homo_sapiens_UCSC_hg19.tar.gz from http://support.illumina.com/sequencing/sequencing_software/igenome.html and unzip the file before running the following command.
 ```
 ./prepare.sh Homo_sapiens/UCSC/hg19/Annotation/Genes/genes.gtf
 ```
+  - The repository contains prebuilt exon/intron regions in hg19.
 
 2. Detection of differential alternative splicing
 ```
