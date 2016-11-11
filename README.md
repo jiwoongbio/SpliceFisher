@@ -30,8 +30,8 @@ Requirements
 
 1. Perl - https://www.perl.org
 2. Perl module "Bio::DB::Sam" - http://search.cpan.org/~lds/Bio-SamTools-1.43/lib/Bio/DB/Sam.pm
-3. R - https://www.r-project.org
-4. Common linux commands: cut, sort, uniq, ...
+3. R (Rscript) - https://www.r-project.org
+4. Common linux commands: bash, cut, sort, uniq, ...
 
 
 Install
