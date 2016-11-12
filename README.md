@@ -19,9 +19,9 @@ Method
     - *d* intron-mapping reads
     - *e* gene-mapping reads
 2. Multiple Fisher's exact tests
-  - (control *a* / control *c*) / (test *a* / test *c*)
-  - (control *b* / control *c*) / (test *b* / test *c*)
-  - (control *d* / control *e*) / (test *d* / test *e*)
+  - Head: (control *a* / control *c*) / (test *a* / test *c*)
+  - Tail: (control *b* / control *c*) / (test *b* / test *c*)
+  - Body: (control *d* / control *e*) / (test *d* / test *e*)
 3. Adjustment of p-values by false discovery rate (FDR) method
 
 
@@ -64,6 +64,6 @@ Usages
   ```
   ./SpliceFisher.sh hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
   ```
-  - Example result: exon skipping and intron retention of CD44
+  - Example result: exon skipping and intron retention of CD44 (hnRNPM_KD.exon.filtered.txt, hnRNPM_KD.intron.filtered.txt)
 
 ![hnRNPM_KD.CD44.png](hnRNPM_KD.CD44.png)
