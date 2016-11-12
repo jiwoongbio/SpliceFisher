@@ -64,5 +64,6 @@ Usages
   ```
   ./SpliceFisher.sh hnRNPM_KD 0.05 Control_rep1.bam,Control_rep2.bam hnRNPM_KD_rep1.bam,hnRNPM_KD_rep2.bam
   ```
+  - Example result: exon skipping and intron retention of CD44
 
 ![hnRNPM_KD.CD44.png](hnRNPM_KD.CD44.png)
