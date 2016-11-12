@@ -18,7 +18,7 @@ Method
     - *c* exon-exon reads
     - *d* intron-mapping reads
     - *e* gene-mapping reads
-2. Fisher's exact test
+2. Multiple Fisher's exact tests
   - (control *a* / control *c*) / (test *a* / test *c*)
   - (control *b* / control *c*) / (test *b* / test *c*)
   - (control *d* / control *e*) / (test *d* / test *e*)
