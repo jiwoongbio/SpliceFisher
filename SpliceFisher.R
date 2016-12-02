@@ -6,7 +6,7 @@ parts <- c("Head", "Tail", "Body")
 for(part in parts) {
 	count.table <- table[, grep(paste("^count", part, sep = ""), colnames(table))]
 	table[, paste("kruskal_pvalue", part, sep = "")] <- apply(count.table, 1, function(x) {
-		ratiosList <- lapply(as.list(data.frame(matrix(unlist(x), nrow = 2), stringsAsFactors = FALSE)), function(y) {
+		ratiosList <- lapply(as.list(data.frame(matrix(as.character(unlist(x)), nrow = 2), stringsAsFactors = FALSE)), function(y) {
 			counts <- as.numeric(unlist(strsplit(y[2], ',')))
 			ratios <- counts / (counts + as.numeric(unlist(strsplit(y[1], ','))))
 			ratios[!is.na(ratios)]
