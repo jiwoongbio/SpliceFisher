@@ -5,7 +5,7 @@ Multiple Fisher's exact tests for differential alternative splicing detection us
 Method
 ------
 
-![SpliceFisher.method.png](SpliceFisher.method.png)
+![](SpliceFisher.method.png)
 
 1. Counting reads from BAM files
   - Exon skipping
@@ -24,7 +24,10 @@ Method
   - Body: (control *d* / control *e*) / (test *d* / test *e*)
 3. Adjustment of p-values by false discovery rate (FDR) method
 
-<img src="SpliceFisher.method.ASS.png"><img src="SpliceFisher.method.MXE.png">
+- Alternative splice sites (A5SS and A3SS) and Mutually exclusive exons (MXE)
+
+![](SpliceFisher.method.ASS.png)
+![](SpliceFisher.method.MXE.png)
 
 
 Requirements
