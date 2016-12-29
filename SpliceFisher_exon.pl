@@ -6,7 +6,7 @@ use Bio::DB::Sam;
 use Getopt::Long;
 
 GetOptions('q=i' => \(my $minimumMappingQuality = 0), 's=s' => \(my $stranded = ''));
-my ($regionFile, $geneFile, @bamFilesList) = @ARGV;
+my ($exonFile, $geneReadCountFile, @bamFilesList) = @ARGV;
 my @samListList = ();
 foreach my $bamFiles (@bamFilesList) {
 	my @samList = map {Bio::DB::Sam->new(-bam => $_)} split(/,/, $bamFiles);
@@ -15,7 +15,7 @@ foreach my $bamFiles (@bamFilesList) {
 
 my %geneReadCountListListHash = ();
 {
-	open(my $reader, $geneFile);
+	open(my $reader, $geneReadCountFile);
 	while(my $line = <$reader>) {
 		chomp($line);
 		my @tokenList = split(/\t/, $line, -1);
@@ -27,7 +27,7 @@ my %geneReadCountListListHash = ();
 my @columnList = ('chromosome', 'start', 'end', 'strand', 'gene');
 push(@columnList, map {"count$_->[1]$_->[2]_$_->[0]"} getCombinationList([map {$_ + 1} 0 .. $#samListList], ['Head', 'Tail', 'Body'], [1, 2]));
 print join("\t", @columnList), "\n";
-open(my $reader, $regionFile);
+open(my $reader, $exonFile);
 while(my $line = <$reader>) {
 	chomp($line);
 	my @tokenList = split(/\t/, $line, -1);
@@ -38,10 +38,6 @@ while(my $line = <$reader>) {
 	foreach my $index (0 .. $#samListList) {
 		$readCountListListList[$index]->[5]->[$_] = $geneReadCountListList[$index]->[$_] - $readCountListListList[$index]->[4]->[$_] foreach(0 .. $#{$samListList[$index]});
 	}
-
-	my @geneReadCountList = map {sum(@$_)} @geneReadCountListList;
-	my @regionReadCountList = map {sum(@{$_->[4]})} @readCountListListList;
-	my $regionLength = $end - $start + 1;
 	print join("\t", $chromosome, $start, $end, $strand, $gene, (map {join(',', @$_)} map {@$_} @readCountListListList)), "\n";
 }
 close($reader);
@@ -54,24 +50,7 @@ sub getExonReadCountListList {
 		my %readCountHash = ();
 		foreach my $alignment ($samList[$index]->get_features_by_location(-seq_id => $chromosome, -start => $start, -end => $end)) {
 			next if($alignment->qual < $minimumMappingQuality);
-			if($stranded eq 'f') {
-				if($alignment->flag & 1) {
-					next if($strand eq '+' && scalar(grep {$_ == $alignment->flag} (99, 147)) == 0);
-					next if($strand eq '-' && scalar(grep {$_ == $alignment->flag} (83, 163)) == 0);
-				} else {
-					next if($strand eq '+' && $alignment->flag != 0);
-					next if($strand eq '-' && $alignment->flag != 16);
-				}
-			}
-			if($stranded eq 'r') {
-				if($alignment->flag & 1) {
-					next if($strand eq '+' && scalar(grep {$_ == $alignment->flag} (83, 163)) == 0);
-					next if($strand eq '-' && scalar(grep {$_ == $alignment->flag} (99, 147)) == 0);
-				} else {
-					next if($strand eq '+' && $alignment->flag != 16);
-					next if($strand eq '-' && $alignment->flag != 0);
-				}
-			}
+			next if($stranded ne '' && getReadStrand($alignment->flag) ne $strand);
 			my @junctionStartEndList = ($alignment->cigar_str =~ /[0-9]+N/) ? getJunctionStartEndList($alignment->start, $alignment->cigar_str) : ();
 			if(grep {$_->[0] <= $start && $end <= $_->[1]} @junctionStartEndList) {
 				$readCountListList[1]->[$index] += 1;
@@ -84,6 +63,7 @@ sub getExonReadCountListList {
 		}
 		$readCountListList[4]->[$index] = scalar(grep {$readCountHash{$_} > 0} keys %readCountHash);
 	}
+	@readCountListList[0, 1, 2, 3] = @readCountListList[2, 3, 0, 1] if($strand eq '-');
 	return @readCountListList;
 }
 
@@ -100,6 +80,29 @@ sub getJunctionStartEndList {
 		}
 	}
 	return @junctionStartEndList;
+}
+
+sub getReadStrand {
+	my ($flag) = @_;
+	if($stranded eq 'f') {
+		if($flag & 1) {
+			return '+' if(grep {$_ == $flag} (99, 147));
+			return '-' if(grep {$_ == $flag} (83, 163));
+		} else {
+			return '+' if($flag == 0);
+			return '-' if($flag == 16);
+		}
+	}
+	if($stranded eq 'r') {
+		if($flag & 1) {
+			return '+' if(grep {$_ == $flag} (83, 163));
+			return '-' if(grep {$_ == $flag} (99, 147));
+		} else {
+			return '+' if($flag == 16);
+			return '-' if($flag == 0);
+		}
+	}
+	return '';
 }
 
 sub getCombinationList {

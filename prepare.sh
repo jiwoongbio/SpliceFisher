@@ -16,3 +16,6 @@ cut -f1,2,3,4,5 $type.txt | sort --field-separator=$'\t' -k1,1 -k2,2n -k3,3n | u
 type=intron
 perl $codeDir/prepare_$type.pl $gtfFile | sort --field-separator=$'\t' -k1,1 -k2,2n -k3,3n > $type.txt
 cut -f1,2,3,4,5 $type.txt | sort --field-separator=$'\t' -k1,1 -k2,2n -k3,3n | uniq > $type.unique.txt
+
+type=exon_pair
+perl $codeDir/prepare_$type.pl $gtfFile | sort --field-separator=$'\t' -k1,1 -k2,2n -k3,3n -k4,4n -k5,5n > $type.txt

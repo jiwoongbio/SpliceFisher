@@ -35,9 +35,14 @@ table[, "change"] <- 0
 table[apply(table[, paste("oddsratio", parts, sep = "")], 1, function(x) {all(!is.na(x) & x > 1)}), "change"] <- -1
 table[apply(table[, paste("oddsratio", parts, sep = "")], 1, function(x) {all(!is.na(x) & x < 1)}), "change"] <- 1
 
-colnames <- c("chromosome", "start", "end", "strand", "gene", "change")
+colnames <- c("change")
 colnames <- c(colnames, apply(expand.grid(c("pvalue", "padjust", "oddsratio", "kruskal_pvalue", "kruskal_padjust"), parts), 1, function(x) {paste(x, collapse = "")}))
 colnames <- c(colnames, colnames(table)[grep("^count", colnames(table))])
+if("pairType" %in% colnames(table)) {
+	colnames <- c("chromosome", "start1", "end1", "start2", "end2", "strand", "pairType", "gene", colnames)
+} else {
+	colnames <- c("chromosome", "start", "end", "strand", "gene", colnames)
+}
 table <- table[, colnames]
 
 write.table(table, file = args[2], quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
