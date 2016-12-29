@@ -24,8 +24,7 @@ Method
   - Body: (control *d* / control *e*) / (test *d* / test *e*)
 3. Adjustment of p-values by false discovery rate (FDR) method
 
-- Alternative splice sites (A5SS and A3SS) and Mutually exclusive exons (MXE)
-
+4. Alternative splice sites (A5SS and A3SS) and Mutually exclusive exons (MXE)
 ![](SpliceFisher.method.ASS.png)
 ![](SpliceFisher.method.MXE.png)
 
