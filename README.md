@@ -24,7 +24,7 @@ Method
   - Body: (control *d* / control *e*) / (test *d* / test *e*)
 3. Adjustment of p-values by false discovery rate (FDR) method
 
-![SpliceFisher.method.ASS.png](SpliceFisher.method.ASS.png) | ![SpliceFisher.method.MXE.png](SpliceFisher.method.MXE.png)
+| ![SpliceFisher.method.ASS.png](SpliceFisher.method.ASS.png) | ![SpliceFisher.method.MXE.png](SpliceFisher.method.MXE.png) |
 
 
 Requirements
