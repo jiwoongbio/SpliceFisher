@@ -7,7 +7,7 @@ alpha=$2
 bamFiles=${@:3}
 
 if [ -z "$bamFiles" ]; then
-	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.bam> <test.bam>' 1>&2
+	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.sorted.bam> <test.sorted.bam>' 1>&2
 	exit 1
 fi
 perl -MBio::DB::Sam -e '' || exit 1

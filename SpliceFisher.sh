@@ -7,7 +7,7 @@ alpha=$2
 bamFiles=${@:3}
 
 if [ -z "$bamFiles" ]; then
-	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.bam> <test.bam>' 1>&2
+	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.sorted.bam> <test.sorted.bam>' 1>&2
 	exit 1
 fi
 perl -MBio::DB::Sam -e '' || exit 1
@@ -25,5 +25,10 @@ perl $codeDir/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPre
 
 type=intron
 perl $codeDir/SpliceFisher_$type.pl $codeDir/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
+Rscript $codeDir/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
+perl $codeDir/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
+
+type=exon_pair
+perl $codeDir/SpliceFisher_$type.pl $codeDir/$type.txt $bamFiles > $outputPrefix.$type.count.txt
 Rscript $codeDir/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
 perl $codeDir/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt

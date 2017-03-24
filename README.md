@@ -59,7 +59,7 @@ git clone https://github.com/jiwoongbio/SpliceFisher.git
 
 2. Detection of differential alternative splicing
    ```
-   ./SpliceFisher.sh <outputPrefix> <alpha> <control.bam> <test.bam>
+   ./SpliceFisher.sh <outputPrefix> <alpha> <control.sorted.bam> <test.sorted.bam>
    ```
    * Example: It uses SRA data of https://www.ncbi.nlm.nih.gov/pubmed/24840202. The reads mapped to 11p13 were extracted to generate the input BAM files.
    ```
