@@ -1,10 +1,27 @@
 # Author: Jiwoong Kim (jiwoongbio@gmail.com)
 use strict;
 use warnings;
-use Bio::DB::Sam;
-use Getopt::Long;
+local $SIG{__WARN__} = sub { die $_[0] };
 
-GetOptions('q=i' => \(my $minimumMappingQuality = 0), 's=s' => \(my $stranded = ''));
+use Bio::DB::Sam;
+use Getopt::Long qw(:config no_ignore_case);
+
+GetOptions(
+	'h' => \(my $help = ''),
+	'q=i' => \(my $minimumMappingQuality = 0),
+	's=s' => \(my $stranded = ''),
+);
+if($help || scalar(@ARGV) == 0) {
+	die <<EOF;
+
+Usage:   perl SpliceFisher_gene.pl [options] exon.txt group1.bam,[...] group2.bam,[...] > gene.count.txt
+
+Options: -h       display this help message
+         -q INT   minimum mapping quality [$minimumMappingQuality]
+         -s       stranded, "f" or "r"
+
+EOF
+}
 my ($exonFile, @bamFilesList) = @ARGV;
 my @samListList = ();
 foreach my $bamFiles (@bamFilesList) {

@@ -1,24 +1,46 @@
+# Author: Jiwoong Kim (jiwoongbio@gmail.com)
 use strict;
 use warnings;
-use Getopt::Long;
+local $SIG{__WARN__} = sub { die $_[0] };
 
-GetOptions('noadjust' => \(my $noadjust = 0),
-	'head' => \(my $checkHead = 0),
-	'body' => \(my $checkBody = 0),
-	'tail' => \(my $checkTail = 0),
-	'kruskal' => \(my $kruskal = 0));
-my $prefix = $noadjust ? 'pvalue' : 'padjust';
+use List::Util qw(all);
+use Getopt::Long qw(:config no_ignore_case);
+
+GetOptions(
+	'h' => \(my $help = ''),
+	'r' => \(my $raw = ''),
+	'k' => \(my $kruskal = ''),
+	'H' => \(my $headOnly = ''),
+	'B' => \(my $bodyOnly = ''),
+	'T' => \(my $tailOnly = ''),
+);
+my $prefix = $raw ? 'pvalue' : 'padjust';
 $prefix = "kruskal_$prefix" if($kruskal);
 my @targetList = ();
-push(@targetList, "${prefix}Head") if($checkHead);
-push(@targetList, "${prefix}Body") if($checkBody);
-push(@targetList, "${prefix}Tail") if($checkTail);
-if($checkHead + $checkBody + $checkTail == 0) {
+push(@targetList, "${prefix}Head") if($headOnly);
+push(@targetList, "${prefix}Body") if($bodyOnly);
+push(@targetList, "${prefix}Tail") if($tailOnly);
+if(all {$_ eq ''} ($headOnly, $bodyOnly, $tailOnly)) {
 	push(@targetList, "${prefix}Head");
 	push(@targetList, "${prefix}Body");
 	push(@targetList, "${prefix}Tail");
 }
-my ($inputFile, $value) = @ARGV;
+if($help || scalar(@ARGV) == 0) {
+	die <<EOF;
+
+Usage:   perl SpliceFisher_filter.pl [options] output.txt alpha > output.filtered.txt
+
+Options: -h       display this help message
+         -r       use raw p-values instead of FDR-adjusted p-values
+         -k       use Kruskal-Wallis rank sum test p-values
+         -H       use head p-values only
+         -B       use body p-values only
+         -T       use tail p-values only
+
+EOF
+}
+my ($inputFile, $alpha) = @ARGV;
+
 open(my $reader, $inputFile);
 chomp(my $line = <$reader>);
 my @columnList = split(/\t/, $line);
@@ -27,7 +49,7 @@ while(my $line = <$reader>) {
 	chomp($line);
 	my %tokenHash = ();
 	@tokenHash{@columnList} = split(/\t/, $line);
-	if(scalar(grep {$_ ne "NA" && $_ < $value} @tokenHash{@targetList}) == scalar(@targetList)) {
+	if(all {$_ ne "NA" && $_ < $alpha} @tokenHash{@targetList}) {
 		print join("\t", @tokenHash{@columnList}), "\n";
 	}
 }

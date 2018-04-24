@@ -1,7 +1,15 @@
 # Author: Jiwoong Kim (jiwoongbio@gmail.com)
 use strict;
 use warnings;
+local $SIG{__WARN__} = sub { die $_[0] };
 
+if(scalar(@ARGV) == 0) {
+	die <<EOF;
+
+Usage:   perl prepare_exon_pair.pl gene.gtf
+
+EOF
+}
 chomp(my $directory = `dirname $0`);
 my ($gtfFile) = @ARGV;
 my ($geneChromosomeStrand, %transcriptExonStartEndListHash) = ('');

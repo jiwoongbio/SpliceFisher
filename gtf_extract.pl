@@ -1,13 +1,29 @@
 # Author: Jiwoong Kim (jiwoongbio@gmail.com)
 use strict;
 use warnings;
-use Getopt::Long;
+local $SIG{__WARN__} = sub { die $_[0] };
+
+use List::Util qw(all);
 
 my @filterList = ();
-GetOptions('f=s' => \@filterList);
-@filterList = map {[split(/=/, $_)]} @filterList;
+use Getopt::Long qw(:config no_ignore_case);
+GetOptions(
+	'h' => \(my $help = ''),
+	'f=s' => \@filterList,
+);
+if($help || scalar(@ARGV) == 0) {
+	die <<EOF;
 
+Usage:   perl gtf_extract.pl [options] gene.gtf [column [...]] > extract.txt
+
+Options: -h       display this help message
+         -f STR   filter e.g. feature=exon
+
+EOF
+}
+@filterList = map {[split(/=/, $_, 2)]} @filterList;
 my ($gtfFile, @columnList) = @ARGV;
+
 open(my $reader, $gtfFile);
 while(my $line = <$reader>) {
 	chomp($line);
@@ -15,9 +31,6 @@ while(my $line = <$reader>) {
 	my %tokenHash = ();
 	@tokenHash{'chromosome', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute'} = split(/\t/, $line);
 	$tokenHash{$1} = $2 while($tokenHash{'attribute'} =~ m/([^"; ]+) +"([^"]+)";/g);
-
-	my %filterHash = ();
-	$filterHash{$_->[0]} = $filterHash{$_->[0]} || $tokenHash{$_->[0]} eq $_->[1] foreach(@filterList);
-	print join("\t", @tokenHash{@columnList}), "\n" unless(grep {!$_} values %filterHash);
+	print join("\t", @tokenHash{@columnList}), "\n" if(all {$tokenHash{$_->[0]} eq $_->[1]} @filterList);
 }
 close($reader);
