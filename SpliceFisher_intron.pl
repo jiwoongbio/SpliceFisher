@@ -68,12 +68,12 @@ sub getIntronReadCountListList {
 			next if($alignment->qual < $minimumMappingQuality);
 			next if($stranded ne '' && getReadStrand($alignment->flag) ne $strand);
 			my @junctionStartEndList = ($alignment->cigar_str =~ /[0-9]+N/) ? getJunctionStartEndList($alignment->start, $alignment->cigar_str) : ();
-			if(@junctionStartEndList) {
-				$readCountListList[1]->[$index] += 1 if(grep {$_->[0] == $start} @junctionStartEndList);
-				$readCountListList[3]->[$index] += 1 if(grep {$_->[1] == $end} @junctionStartEndList);
+			if(grep {$_->[0] == $start && $_->[1] == $end} @junctionStartEndList) {
+				$readCountListList[1]->[$index] += 1;
+				$readCountListList[3]->[$index] += 1;
 			} else {
-				$readCountListList[0]->[$index] += 1 if($alignment->start < $start);
-				$readCountListList[2]->[$index] += 1 if($alignment->end > $end);
+				$readCountListList[0]->[$index] += 1 if($alignment->start < $start && scalar(grep {$start <= $_->[1]} @junctionStartEndList) == 0);
+				$readCountListList[2]->[$index] += 1 if($alignment->end > $end && scalar(grep {$_->[0] <= $end} @junctionStartEndList) == 0);
 			}
 			$readCountHash{$alignment->qname} += 1 unless(grep {$_->[0] <= $start && $end <= $_->[1]} @junctionStartEndList);
 		}
