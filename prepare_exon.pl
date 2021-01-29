@@ -1,20 +1,12 @@
 # Author: Jiwoong Kim (jiwoongbio@gmail.com)
 use strict;
 use warnings;
-local $SIG{__WARN__} = sub { die $_[0] };
 
-if(scalar(@ARGV) == 0) {
-	die <<EOF;
-
-Usage:   perl prepare_exon.pl gene.gtf
-
-EOF
-}
 chomp(my $directory = `dirname $0`);
 my ($gtfFile) = @ARGV;
 my ($geneTranscriptChromosomeStrand, @exonStartEndList) = ('');
 my @columnList = ('chromosome', 'start', 'end', 'strand', 'gene_id', 'transcript_id');
-open(my $reader, "perl $directory/gtf_extract.pl -f feature=exon $gtfFile @columnList | sort --field-separator='\t' -k1,1 -k4,4 -k5,5 -k6,6 -k2,2n -k3,3n |");
+open(my $reader, "perl $directory/gtf_extract.pl -f feature=exon $gtfFile @columnList | sort --field-separator='\t' -k1,1 -k4 -k2,2n -k3,3n |");
 while(my $line = <$reader>) {
 	chomp($line);
 	my %tokenHash = ();

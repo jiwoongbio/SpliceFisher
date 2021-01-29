@@ -1,13 +1,13 @@
 # Author: Jiwoong Kim (jiwoongbio@gmail.com)
 #!/bin/bash
 
-directory=`dirname $0`
+codeDir=`dirname $0`
 outputPrefix=$1
 alpha=$2
 bamFiles=${@:3}
 
 if [ -z "$bamFiles" ]; then
-	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.sorted.bam> <test.sorted.bam>' 1>&2
+	echo 'Usage: ./SpliceFisher.sh <outputPrefix> <alpha> <control.bam> <test.bam>' 1>&2
 	exit 1
 fi
 perl -MBio::DB::Sam -e '' || exit 1
@@ -16,19 +16,14 @@ for bamFile in `echo "$bamFiles" | sed 's/,/ /g'`; do
 	find $bamFile.bai -newer $bamFile > /dev/null || samtools index $bamFile
 done
 
-perl $directory/SpliceFisher_gene.pl $directory/exon.unique.txt $bamFiles > $outputPrefix.gene.count.txt
+perl $codeDir/SpliceFisher_gene.pl $codeDir/exon.unique.txt $bamFiles > $outputPrefix.gene.count.txt
 
 type=exon
-perl $directory/SpliceFisher_$type.pl $directory/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
-Rscript $directory/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
-perl $directory/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
+perl $codeDir/SpliceFisher_$type.pl $codeDir/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
+Rscript $codeDir/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
+perl $codeDir/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
 
 type=intron
-perl $directory/SpliceFisher_$type.pl $directory/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
-Rscript $directory/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
-perl $directory/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
-
-type=exon_pair
-perl $directory/SpliceFisher_$type.pl $directory/$type.txt $bamFiles > $outputPrefix.$type.count.txt
-Rscript $directory/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
-perl $directory/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
+perl $codeDir/SpliceFisher_$type.pl $codeDir/$type.unique.txt $outputPrefix.gene.count.txt $bamFiles > $outputPrefix.$type.count.txt
+Rscript $codeDir/SpliceFisher.R $outputPrefix.$type.count.txt $outputPrefix.$type.txt
+perl $codeDir/SpliceFisher_filter.pl $outputPrefix.$type.txt $alpha > $outputPrefix.$type.filtered.txt
