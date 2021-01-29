@@ -31,6 +31,6 @@ while(my $line = <$reader>) {
 	my %tokenHash = ();
 	@tokenHash{'chromosome', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute'} = split(/\t/, $line);
 	$tokenHash{$1} = $2 while($tokenHash{'attribute'} =~ m/([^"; ]+) +"([^"]+)";/g);
-	print join("\t", @tokenHash{@columnList}), "\n" if(all {$tokenHash{$_->[0]} eq $_->[1]} @filterList);
+	print join("\t", map {defined($_) ? $_ : ''} @tokenHash{@columnList}), "\n" if(all {$tokenHash{$_->[0]} eq $_->[1]} @filterList);
 }
 close($reader);

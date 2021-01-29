@@ -28,6 +28,8 @@ foreach my $bamFiles (@bamFilesList) {
 	my @samList = map {Bio::DB::Sam->new(-bam => $_)} split(/,/, $bamFiles);
 	push(@samListList, \@samList);
 }
+my %chromosomeHash = ();
+$chromosomeHash{$_} = 1 foreach(map {$_->seq_ids} map {@$_} @samListList);
 {
 	my ($previousGene, @chromosomeStartEndStrandList) = ('');
 	open(my $reader, "sort --field-separator='\t' -k5 $exonFile |");
@@ -35,6 +37,7 @@ foreach my $bamFiles (@bamFilesList) {
 		chomp($line);
 		my @tokenList = split(/\t/, $line, -1);
 		my ($chromosome, $start, $end, $strand, $gene) = @tokenList;
+		next unless($chromosomeHash{$chromosome});
 		if($gene ne $previousGene) {
 			print join("\t", $previousGene, getReadCountsList(@chromosomeStartEndStrandList)), "\n" if($previousGene ne '');
 			($previousGene, @chromosomeStartEndStrandList) = ($gene);

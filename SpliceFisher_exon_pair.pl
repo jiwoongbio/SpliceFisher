@@ -28,6 +28,8 @@ foreach my $bamFiles (@bamFilesList) {
 	my @samList = map {Bio::DB::Sam->new(-bam => $_)} split(/,/, $bamFiles);
 	push(@samListList, \@samList);
 }
+my %chromosomeHash = ();
+$chromosomeHash{$_} = 1 foreach(map {$_->seq_ids} map {@$_} @samListList);
 
 my @columnList = ('chromosome', 'start1', 'end1', 'start2', 'end2', 'strand', 'pairType', 'gene');
 push(@columnList, map {"count$_->[1]$_->[2]_$_->[0]"} getCombinationList([map {$_ + 1} 0 .. $#samListList], ['Head', 'Tail', 'Body'], [1, 2]));
@@ -37,6 +39,7 @@ while(my $line = <$reader>) {
 	chomp($line);
 	my @tokenList = split(/\t/, $line, -1);
 	my ($chromosome, $start1, $end1, $start2, $end2, $strand, $pairType, $gene) = @tokenList;
+	next unless($chromosomeHash{$chromosome});
 
 	my @readCountListListList = map {[getExonPairReadCountListList($chromosome, $start1, $end1, $start2, $end2, $strand, $pairType, @$_)]} @samListList;
 	print join("\t", $chromosome, $start1, $end1, $start2, $end2, $strand, $pairType, $gene, (map {join(',', @$_)} map {@$_} @readCountListListList)), "\n";
