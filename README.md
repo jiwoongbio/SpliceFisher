@@ -1,3 +1,6 @@
+[![](https://qbrc.swmed.edu/images/qbrc_small.jpg)](https://qbrc.swmed.edu)
+
+
 # SpliceFisher
 
 Multiple Fisher's exact tests for differential alternative splicing detection using RNA-seq data
@@ -72,7 +75,9 @@ git clone https://github.com/jiwoongbio/SpliceFisher.git
 
 ## Citation
 
-Han T, Goralski M, Gaskill N, Capota E, Kim J, Ting TC, Xie Y, Williams NS, Nijhawan D.
-"Anticancer sulfonamides target splicing by inducing RBM39 degradation via recruitment to DCAF15"
-Science. 2017 Mar 16. pii: eaal3755.
+Han T, Goralski M, Gaskill N, Capota E, **Kim J**, Ting TC, Xie Y, Williams NS, Nijhawan D.
+"*Anticancer sulfonamides target splicing by inducing RBM39 degradation via recruitment to DCAF15*"
+**Science**. 2017 Mar 16. pii: eaal3755.
 PMID: [28302793](https://www.ncbi.nlm.nih.gov/pubmed/28302793)
+
+**Lin Xu**, Yanbin Zheng, **Jiwoong Kim**, Xue Xiao, Qinbo Zhou, Feng Wang, Blake Schwettmann, Dinesh Rakheja, **Guanghua Xiao**, **Stephen X. Skapek**. "*Defining the isoform landscape in Rhabdmyosarcoma uncovers new disease genes and potential biomarkers*" (Submitted)
