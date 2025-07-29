@@ -24,8 +24,9 @@ for(rowNumber in 1:nrow(table)) {
 	table[rowNumber, "change"] <- change
 	table[rowNumber, "pvalue"] <- max(unlist(lapply(test.list, function(x) {x$p.value})))
 }
+table$fdr <- p.adjust(table$pvalue, method = "fdr")
 
-colnames <- c("change", "pvalue")
+colnames <- c("change", "pvalue", "fdr")
 colnames <- c(colnames, grep("^count", colnames(table), value = TRUE))
 if("pairType" %in% colnames(table)) {
 	colnames <- c("chromosome", "start1", "end1", "start2", "end2", "strand", "pairType", "gene", colnames)
